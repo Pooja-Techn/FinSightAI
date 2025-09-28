@@ -26,6 +26,7 @@ for i in range(3):
 process_URL_Clicked = st.sidebar.button('Process_URL')
 file_path = "faiss_store"
 main_placeholder = st.empty()
+embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
 if process_URL_Clicked:
     # Load data from URLs
@@ -48,7 +49,6 @@ if process_URL_Clicked:
 
 
     # Create embeddings with Hugging Face
-    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
     vectors = FAISS.from_documents(docs_with_meta, embeddings)
     main_placeholder.text("Embedding vector started building...")
     time.sleep(2)
