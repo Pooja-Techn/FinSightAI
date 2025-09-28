@@ -24,7 +24,7 @@ for i in range(3):
     urls.append(url)
 
 process_URL_Clicked = st.sidebar.button('Process_URL')
-file_path = "faiss_store.pkl"
+file_path = "faiss_store"
 main_placeholder = st.empty()
 
 if process_URL_Clicked:
@@ -53,16 +53,22 @@ if process_URL_Clicked:
     main_placeholder.text("Embedding vector started building...")
     time.sleep(2)
 
-    with open(file_path, "wb") as f:
-        pickle.dump(vectors, f)
+    #with open(file_path, "wb") as f:
+        #pickle.dump(vectors, f)
+    vectors.save_local(file_path)
 
 # User query input
 query = main_placeholder.text_input("Question: ")
 
 if query:
     if os.path.exists(file_path):
-        with open(file_path, "rb") as f:
-            vectorstore = pickle.load(f)
+        #with open(file_path, "rb") as f:
+            # vectorstore = pickle.load(f)
+        vectorstore = FAISS.load_local(
+            file_path,
+            embeddings,   # must pass same embedding model
+            allow_dangerous_deserialization=True  # needed for newer versions
+        )
 
         # Initialize Groq LLM
         llm = ChatGroq(
