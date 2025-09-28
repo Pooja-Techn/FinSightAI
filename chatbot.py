@@ -85,7 +85,7 @@ if query:
         result = chain({"question": query}, return_only_outputs=True)
 
         # Display answer
-        st.header("Answer")
+        #st.header("Answer")
         st.subheader(result.get("answer", "No answer found."))
 
         # Display sources
@@ -94,4 +94,6 @@ if query:
             st.subheader("Sources:")
             sources_list = sources.split("\n")
             for source in sources_list:
-                st.write(source)  # This will now show the actual URL stored in metadata
+                #st.write(source)  # This will now show the actual URL stored in metadata
+                if source.strip():  # avoid blanks
+                    st.write(f"🔗 {source}")
